@@ -40,19 +40,20 @@ mongoose
   .then(() => {
     return Recipe.findOneAndUpdate(
       { title: "Rigatoni alla Genovese" },
-      { duration: 100 }
+      { duration: 100 },
+      { new: true }
     );
   })
-  .then((updateRecipe) => {
+  .then((updateReciped) => {
     return console.log(
-      `Success! ${updateRecipe.title} recipe cooking time has been updated to ${updateRecipe.duration}`
+      `Success! ${updateReciped.title} recipe cooking time has been updated to ${updateReciped.duration}`
     );
   })
   .then(() => {
     return Recipe.deleteOne({ title: "Carrot Cake" });
   })
-  .then((deletedRecipe) => {
-    return console.log(`${deletedRecipe} recipe has been deleted`);
+  .then(() => {
+    return console.log(`Success! The Carrot Cake recipe has been deleted`);
   })
   .then(() => {
     mongoose.connection.close(() => {
