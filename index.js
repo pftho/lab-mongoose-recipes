@@ -34,9 +34,8 @@ mongoose
   .then(() => {
     return Recipe.find();
   })
-  .then(() => {
-
-
+  .then((allRecipes) => {
+    return allRecipes.forEach((recipe) => console.log(recipe.title));
   })
   .then(() => {
     return Recipe.findOneAndUpdate(
@@ -44,16 +43,23 @@ mongoose
       { duration: 100 }
     );
   })
+  .then((updateRecipe) => {
+    return console.log(
+      `Success! ${updateRecipe.title} recipe cooking time has been updated to ${updateRecipe.duration}`
+    );
+  })
   .then(() => {
     return Recipe.deleteOne({ title: "Carrot Cake" });
+  })
+  .then((deletedRecipe) => {
+    return console.log(`${deletedRecipe} recipe has been deleted`);
+  })
+  .then(() => {
+    mongoose.connection.close(() => {
+      console.log(`Mongo connection disconnected`);
+      process.exit(0);
+    });
   })
   .catch((error) => {
     console.error("Error connecting to the database", error);
   });
-
-// process.on("SIGINT", () => {
-//   mongoose.connection.close(() => {
-//     console.log(`Mongo connection disconnected`);
-//     process.exit(0);
-//   });
-// });
